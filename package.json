@@ -1,0 +1,19 @@
+{
+  "name": "auth0-implementation",
+  "version": "1.0.0",
+  "description": "A NodeJS MVC implementation which utilizes auth0 IDP",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usbzonelk/auth0-implementation.git"
+  },
+  "author": "SE/2019/050",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/usbzonelk/auth0-implementation/issues"
+  },
+  "homepage": "https://github.com/usbzonelk/auth0-implementation#readme"
+}
