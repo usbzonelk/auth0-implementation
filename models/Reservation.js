@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const database = require("../config/DBConnection").dbConnection;
 
-const Reservation = sequelize.define(
+const Reservation = database.define(
   "Reservation",
   {
     booking_id: {
