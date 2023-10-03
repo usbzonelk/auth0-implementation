@@ -41,6 +41,7 @@ const Reservation = database.define(
   },
   {
     tableName: "vehicle_service",
+    timestamps: false, 
   }
 );
 

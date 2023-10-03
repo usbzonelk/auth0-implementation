@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const dotenv = require("dotenv").config();
+const { Op } = require("sequelize");
+const Reservation = require("../models/Reservation");
 
 router.get("/", async (req, res) => {
   const userAuth = { auth: false };
@@ -13,6 +15,20 @@ router.get("/", async (req, res) => {
       url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
       headers: { authorization: `Bearer ${process.env.AUTH0_MGMT}` },
     };
+
+    try {
+      const reservations = await Reservation.findAll({
+        where: {
+          username: {
+            [Op.eq]: userAuth.id,
+          },
+        },
+      });
+      console.log(reservations);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      res.render("dbError");
+    }
 
     await axios
       .request(options)
