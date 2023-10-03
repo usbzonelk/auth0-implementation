@@ -27,9 +27,9 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use("/dashboard/:deleteID", require("./routes/deleteID"));
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", require("./routes/index"));
 

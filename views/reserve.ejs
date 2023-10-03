@@ -170,7 +170,7 @@
     <% if ("validations" in userAuth && userAuth.validations.length> 0) { %>
         <script defer>
 
-            const alertText = warnings.join('\n');
+            const alertText = `<%= userAuth.validations.join('\\n') %>`;
             Swal.fire({
                 icon: 'error',
                 title: 'Please fix below errors',
