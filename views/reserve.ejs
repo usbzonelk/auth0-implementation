@@ -134,16 +134,16 @@
                             <div class="field">
                                 <label class="label">Mileage</label>
                                 <div class="control">
-                                    <input class="input" type="number" name="mileage" required <% if ('userInputs' in
-                                        userAuth) { %> value="<%= userAuth.userInputs.mileage %>"
+                                    <input placeholder="23" class="input" type="number" name="mileage" required <% if
+                                        ('userInputs' in userAuth) { %> value="<%= userAuth.userInputs.mileage %>"
                                         <% } %>>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Message</label>
                                 <div class="control">
-                                    <textarea class="textarea" name="message" required <% if ('userInputs' in userAuth)
-                                        { %> value="<%= userAuth.userInputs.message %>"
+                                    <textarea placeholder="Put off the battery" class="textarea" name="message" required
+                                        <% if ('userInputs' in userAuth) { %> value="<%= userAuth.userInputs.message %>"
                                     <% } %>></textarea>
                                 </div>
                             </div>

@@ -63,7 +63,6 @@ router.post("/", async (req, res) => {
       });
 
     try {
-      console.log(userValidations);
       if (userValidations.length < 1) {
         reservationData.username = userAuth.userDetails.username;
         const newReservation = await Reservation.create(reservationData);
