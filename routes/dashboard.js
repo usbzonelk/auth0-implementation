@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 const Reservation = require("../models/Reservation");
 
 router.get("/", async (req, res) => {
-  const userAuth = { auth: false };
+  const userAuth = { auth: false, reservations: [] };
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
           },
         },
       });
-      console.log(reservations);
+      userAuth.reservations = reservations;
     } catch (error) {
       console.error("Error fetching data:", error);
       res.render("dbError");
