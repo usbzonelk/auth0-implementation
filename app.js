@@ -2,7 +2,6 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const path = require("path");
 const { auth } = require("express-openid-connect");
-const exp = require("constants");
 const bodyParser = require("body-parser");
 
 const dbConnection = require("./config/DBConnection").dbConnection;
@@ -30,9 +29,9 @@ app.use(
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/", require("./routes/index"));
-
 app.use("/dashboard/:deleteID", require("./routes/deleteID"));
+
+app.use("/", require("./routes/index"));
 
 app.use("/dashboard", require("./routes/dashboard"));
 
