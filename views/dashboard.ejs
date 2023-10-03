@@ -129,9 +129,18 @@
                                                 <td>
                                                     <%= userAuth.reservations[i].message %>
                                                 </td>
-                                                <td> <a href="dashboard/<%= userAuth.reservations[i].booking_id %>"><button
-                                                            class="button is-danger">Delete</button>
-                                                    </a></td>
+                                                <td>
+                                                    <% const currentDate=new Date(); %>
+                                                        <% if (new Date(userAuth.reservations[i].date)> currentDate) { %>
+                                                            <a
+                                                                href="dashboard/<%= userAuth.reservations[i].booking_id %>">
+                                                                <button class="button is-danger">Delete</button>
+                                                            </a>
+                                                            <% } else { %>
+                                                                <button class="button is-danger"
+                                                                    disabled>Delete</button>
+                                                                <% } %>
+                                                </td>
 
                                             </tr>
 

@@ -6,11 +6,25 @@ const { Op } = require("sequelize");
 const Reservation = require("../models/Reservation");
 
 router.get("/", async (req, res) => {
-  const userAuth = { auth: false, reservations: [] };
+  const userAuth = { auth: false };
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
-    res.render("reserve");
+    const options = {
+      method: "GET",
+      url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
+      headers: { authorization: `Bearer ${process.env.AUTH0_MGMT}` },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        userAuth.userDetails = response.data;
+        res.render("reserve", { userAuth });
+      })
+      .catch(function (error) {
+        res.redirect("/logout");
+      });
   } else {
     res.redirect("/login");
   }
