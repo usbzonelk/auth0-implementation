@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
-    res.render("home", { userAuth });
+    res.render("dashboard", { userAuth });
   } else {
     res.redirect("/login");
   }
