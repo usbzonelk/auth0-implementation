@@ -8,7 +8,6 @@ router.get("/", async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
-
     const options = {
       method: "GET",
       url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
@@ -19,11 +18,11 @@ router.get("/", async (req, res) => {
       .request(options)
       .then(function (response) {
         userAuth.userDetails = response.data;
+        res.render("dashboard", { userAuth });
       })
       .catch(function (error) {
-        console.error(error);
+        res.redirect("/logout");
       });
-    res.render("dashboard", { userAuth });
   } else {
     res.redirect("/login");
   }
