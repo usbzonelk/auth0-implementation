@@ -32,13 +32,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const userAuth = { auth: false };
+  const userAuth = { auth: false, warnings: [] };
   const reservationData = req.body;
 
   for (const key in reservationData) {
     reservationData[key] = sanitizer(reservationData[key]);
   }
-  console.log(reservationData);
+
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
