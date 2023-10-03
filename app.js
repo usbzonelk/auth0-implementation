@@ -7,6 +7,13 @@ const dbConnection = require("./config/DBConnection").dbConnection;
 
 const app = express();
 
+// Added static folder for static stuff
+app.use(express.static(path.join(__dirname, 'static')));
+
+// Set up EJS for views
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 const startServer = async () => {
    dbConnection
     .sync()
