@@ -16,31 +16,31 @@ router.get("/", async (req, res) => {
       headers: { authorization: `Bearer ${process.env.AUTH0_MGMT}` },
     };
 
-    try {
-      const reservations = await Reservation.findAll({
-        where: {
-          username: {
-            [Op.eq]: userAuth.id,
-          },
-        },
-      });
-      userAuth.reservations = reservations;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      res.render("dbError");
-    }
-
     await axios
       .request(options)
       .then(function (response) {
         userAuth.userDetails = response.data;
-        res.render("dashboard", { userAuth });
       })
       .catch(function (error) {
         res.redirect("/logout");
       });
   } else {
     res.redirect("/login");
+  }
+
+  try {
+    const reservations = await Reservation.findAll({
+      where: {
+        username: {
+          [Op.eq]: userAuth.userDetails.username,
+        },
+      },
+    });
+    userAuth.reservations = reservations;
+    res.render("dashboard", { userAuth });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.render("dbError");
   }
 });
 
