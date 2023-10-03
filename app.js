@@ -28,6 +28,10 @@ app.use(
 
 app.use("/", require("./routes/index"));
 
+app.use((req, res) => {
+  res.render("404");
+});
+
 const startServer = async () => {
   dbConnection
     .sync()
