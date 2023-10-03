@@ -23,7 +23,6 @@ router.get("/", async (req, res) => {
       .catch(function (error) {
         console.error(error);
       });
-
     res.render("dashboard", { userAuth });
   } else {
     res.redirect("/login");

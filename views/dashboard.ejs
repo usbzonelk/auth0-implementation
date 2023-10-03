@@ -48,16 +48,32 @@
                 <div class="w-layout-grid f-grid-three-column">
                     <div id="w-node-d4c0ae4f-9213-3c19-d19c-08539db2f105-f8b1e56b" class="f-testimonial-card">
                         <div class="f-margin-bottom-40">
-                            <div class="sysf-tag-2 sysf-tag-success">email</div>
-                            <div class="sysf-tag-2 sysf-tag-success">phone</div>
-                            <div class="sysf-tag-2 sysf-tag-success">country</div>
+                            <div class="sysf-tag-2 sysf-tag-success">
+                                <%= userAuth.userDetails.email %>
+                            </div>
+                            <div class="sysf-tag-2 sysf-tag-success">
+                                <%= userAuth.userDetails.user_metadata.phone %>
+                            </div>
+                            <div class="sysf-tag-2 sysf-tag-success">
+                                <img
+                                    src="https://flagcdn.com/48x36/<%= userAuth.userDetails.user_metadata.country %>.png" />
+                            </div>
                         </div>
                         <div class="f-testimonial-author">
-                            <div class="f-testimonial-avatar-small"><img src="/static/dashboard/avatar.png"
-                                    loading="lazy" alt="" class="f-avatar-image"></div>
+                            <div class="f-testimonial-avatar-small">
+                                <img src="<% if ('picture' in userAuth.userDetails) { %>
+                                              <%= userAuth.userDetails.picture %>
+                                            <% } else { %>
+                                              /static/dashboard/avatar.png
+                                            <% } %>" loading="lazy" alt="" class="f-avatar-image">
+                            </div>
                             <div>
-                                <p class="f-paragraph-regular f-text-weight-medium">My Name</p>
-                                <div class="f-paragraph-small">@username</div>
+
+                                <p class="f-paragraph-regular f-text-weight-medium">
+                                    <%= userAuth.userDetails.user_metadata.fullname %>
+                                </p>
+                                <div class="f-paragraph-small">@<%= userAuth.userDetails.username %>
+                                </div>
                             </div>
                         </div>
                     </div>
