@@ -26,6 +26,8 @@ app.use(
   })
 );
 
+app.use("/", require("./routes/index"));
+
 const startServer = async () => {
   dbConnection
     .sync()
