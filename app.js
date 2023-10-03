@@ -29,6 +29,8 @@ app.use(
 
 app.use("/", require("./routes/index"));
 
+app.use("/dashboard", require("./routes/dashboard"));
+
 app.use((req, res) => {
   res.render("404");
 });
@@ -49,7 +51,6 @@ const dbConnectionError = () => {
 };
 
 const startServer = async () => {
-  
   dbConnection
     .sync()
     .then(() => {
