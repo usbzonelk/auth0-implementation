@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
+    res.render("reserve");
   } else {
     res.redirect("/login");
   }
