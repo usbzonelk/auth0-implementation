@@ -1,18 +1,18 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-const path = require('path');
-const { auth } = require('express-openid-connect');
+const path = require("path");
+const { auth } = require("express-openid-connect");
 
 const dbConnection = require("./config/DBConnection").dbConnection;
 
 const app = express();
 
 // Added static folder for static stuff
-app.use(express.static(path.join(__dirname, 'static')));
+app.use("/static", express.static(path.join(__dirname, "static")));
 
 // Set up EJS for views
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // Added auth0 config
 app.use(
@@ -23,11 +23,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     authRequired: false,
     auth0Logout: true,
-  }),
+  })
 );
 
 const startServer = async () => {
-   dbConnection
+  dbConnection
     .sync()
     .then(() => {
       app.listen(process.env.PORT, () => {
