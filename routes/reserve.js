@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config();
 const { Op } = require("sequelize");
 const Reservation = require("../models/Reservation");
 const sanitizer = require("../utils/sanitize");
+const validator = require("../utils/validator");
 
 router.get("/", async (req, res) => {
   const userAuth = { auth: false };
@@ -32,12 +33,15 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const userAuth = { auth: false, warnings: [] };
+  const userAuth = { auth: false };
+  let userValidations = [];
   const reservationData = req.body;
 
   for (const key in reservationData) {
     reservationData[key] = sanitizer(reservationData[key]);
   }
+
+  userValidations = validator(reservationData);
 
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
@@ -59,15 +63,12 @@ router.post("/", async (req, res) => {
       });
 
     try {
-      const reservations = await Reservation.findAll({
-        where: {
-          username: {
-            [Op.eq]: userAuth.userDetails.username,
-          },
-        },
-      });
-      userAuth.reservations = reservations;
-      res.render("reserve", { userAuth });
+      console.log(userValidations);
+      if (userValidations.length < 1) {
+        reservationData.username = userAuth.userDetails.username;
+        const newReservation = await Reservation.create(reservationData);
+      }
+      res.render("reserve", { userAuth, userValidations, reservationData });
     } catch (error) {
       console.error("Error fetching data:", error);
       res.render("dbError");

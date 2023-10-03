@@ -1,28 +1,27 @@
 const validator = (reservationData) => {
   const warnings = [];
 
-  if (!reservationData["date"].isDate) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(reservationData["date"])) {
     warnings.push("Date is invalid");
   }
 
-  if (
-    !reservationData["time"].matches(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)
-  ) {
+ /*  if (/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(reservationData["time"])) {
     warnings.push("Time is invalid");
-  }
+  } */
 
-  if (!reservationData["location"].notEmpty()) {
+  if (!reservationData["location"]) {
     warnings.push("Location is invalid");
   }
 
-  if (!reservationData["vehicle_no"].matches(/^[A-Z0-9]+$/)) {
-    warnings.push("Vahicle number is invalid");
-  }
-  if (!reservationData["mileage"].isInt({ min: 0 })) {
-    warnings.push("Milage is invalid");
+  if (!/^[A-Z0-9\s-]*$/.test(reservationData["vehicle_no"])) {
+    warnings.push("Vehicle number is invalid");
   }
 
-  if (!reservationData["message"].notEmpty()) {
+  if (!/^\d+$/.test(reservationData["mileage"])) {
+    warnings.push("Mileage is invalid");
+  }
+
+  if (!reservationData["message"]) {
     warnings.push("Message is invalid");
   }
 
