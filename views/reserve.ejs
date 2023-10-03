@@ -10,10 +10,10 @@
     <link href="https://fonts.googleapis.com/" rel="preconnect">
     <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/dashboard/dashboard.css" media="all">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
     <style>
         .is-flex-table {
@@ -112,31 +112,39 @@
                                 <label class="label">Location</label>
                                 <div class="control">
                                     <div class="select">
-                                        <select name="location" required>
-                                            <option value="">Select District</option>
-                                            <option value="Colombo">Colombo</option>
-                                            <option value="Gampaha">Gampaha</option>
-                                            <option value="Kandy">Kandy</option>
+                                        <select name="location" <% if ('userInputs' in userAuth) { %> value="<%=
+                                                userAuth.userInputs.location %>" <% } %> required>
+                                                    <option value="">Select District</option>
+                                                    <option value="Colombo">Colombo</option>
+                                                    <option value="Gampaha">Gampaha</option>
+                                                    <option value="Kandy">Kandy</option>
                                         </select>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Vehicle Number</label>
                                 <div class="control">
-                                    <input class="input" placeholder="AB-1234" type="text" name="vehicle_no" required>
+                                    <input class="input" placeholder="AB-1234" type="text" name="vehicle_no" required <%
+                                        if ('userInputs' in userAuth) { %> value="<%= userAuth.userInputs.vehicle_no %>"
+                                        <% } %>>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Mileage</label>
                                 <div class="control">
-                                    <input class="input" type="number" name="mileage" required>
+                                    <input class="input" type="number" name="mileage" required <% if ('userInputs' in
+                                        userAuth) { %> value="<%= userAuth.userInputs.mileage %>"
+                                        <% } %>>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Message</label>
                                 <div class="control">
-                                    <textarea class="textarea" name="message" required></textarea>
+                                    <textarea class="textarea" name="message" required <% if ('userInputs' in userAuth)
+                                        { %> value="<%= userAuth.userInputs.message %>"
+                                    <% } %>></textarea>
                                 </div>
                             </div>
                             <div class="field">
@@ -158,6 +166,32 @@
             </div>
         </div>
     </div>
+
+    <% if ("validations" in userAuth && userAuth.validations.length> 0) { %>
+        <script defer>
+
+            const alertText = warnings.join('\n');
+            Swal.fire({
+                icon: 'error',
+                title: 'Please fix below errors',
+                text: alertText,
+            });    </script>
+
+        <% } else if ("validations" in userAuth && userAuth.validations.length < 1){ %>
+            <script defer>
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Successfully saved',
+                    text: 'You have successfully booked your time slot!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/dashboard';
+                    }
+                });  </script>
+
+            <% } %>
+
 </body>
 
 </html>

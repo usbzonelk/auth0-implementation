@@ -68,7 +68,11 @@ router.post("/", async (req, res) => {
         reservationData.username = userAuth.userDetails.username;
         const newReservation = await Reservation.create(reservationData);
       }
-      res.render("reserve", { userAuth, userValidations, reservationData });
+      userAuth.validations = userValidations;
+      userAuth.userInputs = reservationData;
+      res.render("reserve", {
+        userAuth,
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
       res.render("dbError");
