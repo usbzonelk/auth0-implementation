@@ -29,6 +29,8 @@ app.use(
 
 app.use("/", require("./routes/index"));
 
+app.use("/dashboard/:deleteID", require("./routes/deleteID"));
+
 app.use("/dashboard", require("./routes/dashboard"));
 
 app.use((req, res) => {
