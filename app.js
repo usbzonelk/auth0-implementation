@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const path = require("path");
 const { auth } = require("express-openid-connect");
+const exp = require("constants");
 
 const dbConnection = require("./config/DBConnection").dbConnection;
 
@@ -32,6 +33,21 @@ app.use((req, res) => {
   res.render("404");
 });
 
+const dbConnectionError = () => {
+  const errApp = express();
+  errApp.use("/static", express.static(path.join(__dirname, "static")));
+
+  errApp.set("view engine", "ejs");
+  errApp.set("views", path.join(__dirname, "views"));
+
+  errApp.use((req, res) => {
+    res.render("dbError");
+  });
+  errApp.listen(process.env.PORT, () => {
+    console.log(`Server Fired up on http://127.0.4.5:${process.env.PORT}`);
+  });
+};
+
 const startServer = async () => {
   dbConnection
     .sync()
@@ -41,7 +57,8 @@ const startServer = async () => {
       });
     })
     .catch((err) => {
-      console.error("Error syncing Sequelize:", err);
+      console.error("Error connecting to databse ");
+      dbConnectionError();
     });
 };
 
