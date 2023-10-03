@@ -49,6 +49,7 @@ const dbConnectionError = () => {
 };
 
 const startServer = async () => {
+  
   dbConnection
     .sync()
     .then(() => {
