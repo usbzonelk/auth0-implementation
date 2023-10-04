@@ -185,13 +185,13 @@
         }
     </script>
 
-    <% if ("deleted" in userAuth && userAuth.deleted){ %>
+    <% if ("deleteCount" in userAuth && userAuth.deleteCount> 0){ %>
         <script>
 
             Swal.fire({
                 icon: 'success',
                 title: 'Successfully deleted',
-                text: 'Your reservation has been successfully deleted!',
+                text: `${userAuth.deleteCount} reservation(s) have been successfully deleted!`,
             })
 
         </script>
