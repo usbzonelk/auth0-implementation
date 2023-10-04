@@ -50,11 +50,12 @@ const dbConnectionError = () => {
   errApp.use((req, res) => {
     res.render("dbError");
   });
-  errApp.listen(process.env.PORT, () => {
+  const errManager = errApp.listen(process.env.PORT, () => {
     console.log(`Server Fired up on http://127.0.4.5:${process.env.PORT}`);
   });
 
   setTimeout(() => {
+    errManager.close();
     startServer();
   }, process.env.SERVER_RESTART_TIMEOUT);
 };
