@@ -69,7 +69,7 @@ const startServer = async () => {
       });
     })
     .catch((err) => {
-      console.error("Error connecting to databse ");
+      console.error("Error connecting to databse ", err);
       dbConnectionError();
     });
 };
