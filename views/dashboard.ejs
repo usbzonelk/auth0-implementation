@@ -179,7 +179,7 @@
                 confirmButtonText: 'Yes, delete it!',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = `dashboard/${bookingId}`;
+                    window.location.href = `/delete/${bookingId}`;
                 }
             });
         }
@@ -191,8 +191,10 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Successfully deleted',
-                text: `${userAuth.deleteCount} reservation(s) have been successfully deleted!`,
-            })
+                text: `<%= userAuth.deleteCount %> reservation(s) have been successfully deleted!`,
+            }).then((result) => {
+                window.location.href = `/dashboard`;
+            });
 
         </script>
 

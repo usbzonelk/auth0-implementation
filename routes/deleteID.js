@@ -7,39 +7,47 @@ const dotenv = require("dotenv").config();
 
 router.get("/:deleteID", async (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    const userID = req.oidc.user.sub;
+    const userAuth = {};
+    userAuth.auth = true;
+    userAuth.id = req.oidc.user.sub;
     const deleteID = req.params.deleteID;
+    const options = {
+      method: "GET",
+      url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
+      headers: { authorization: `Bearer ${process.env.AUTH0_MGMT}` },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        if (response.status === 404) {
+          return res.redirect("/logout");
+        } else {
+          userAuth.userDetails = response.data;
+        }
+      })
+      .catch(function (error) {
+        return res.redirect("/logout");
+      });
+
     try {
+      const today = new Date();
+
       const reservations = await Reservation.destroy({
         where: {
           username: {
-            [Op.eq]: userID,
+            [Op.eq]: userAuth.userDetails.username,
+          },
+          date: {
+            [Op.gt]: today,
           },
           booking_id: parseInt(deleteID),
         },
       }).then(async (count) => {
-        if (!count) {
+        if (count < 1) {
           return res.redirect("/dashboard/");
         } else {
-          const userAuth = {};
-          userAuth.auth = true;
-          userAuth.id = req.oidc.user.sub;
           userAuth.deleteCount = count;
-          
-          const options = {
-            method: "GET",
-            url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
-            headers: { authorization: `Bearer ${process.env.AUTH0_MGMT}` },
-          };
-
-          await axios
-            .request(options)
-            .then(function (response) {
-              userAuth.userDetails = response.data;
-            })
-            .catch(function (error) {
-              res.redirect("/logout");
-            });
 
           try {
             const reservations = await Reservation.findAll({

@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
         userAuth.userDetails = response.data;
       })
       .catch(function (error) {
-        res.redirect("/logout");
+        return res.redirect("/logout");
       });
   } else {
     res.redirect("/login");
