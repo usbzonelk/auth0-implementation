@@ -19,7 +19,11 @@ router.get("/", async (req, res) => {
     await axios
       .request(options)
       .then(function (response) {
-        userAuth.userDetails = response.data;
+        if (response.status === 404) {
+          return res.redirect("/logout");
+        } else {
+          userAuth.userDetails = response.data;
+        }
       })
       .catch(function (error) {
         return res.redirect("/logout");
