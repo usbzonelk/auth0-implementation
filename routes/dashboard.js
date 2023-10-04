@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
       });
   } else {
     res.redirect("/login");
+    return;
   }
 
   try {

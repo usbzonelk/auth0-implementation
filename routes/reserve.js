@@ -60,6 +60,7 @@ router.post("/", async (req, res) => {
       })
       .catch(function (error) {
         res.redirect("/logout");
+        return;
       });
 
     try {

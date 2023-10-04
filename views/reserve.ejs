@@ -178,7 +178,7 @@
             });    </script>
 
         <% } else if ("validations" in userAuth && userAuth.validations.length < 1){ %>
-            <script defer>
+            <script>
 
                 Swal.fire({
                     icon: 'success',
@@ -187,8 +187,12 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = '/dashboard';
+                    } else {
+                        window.location.href = '/dashboard';
                     }
-                });  </script>
+                });
+
+            </script>
 
             <% } %>
 
