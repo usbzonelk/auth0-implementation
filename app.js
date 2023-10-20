@@ -3,16 +3,11 @@ const dotenv = require("dotenv").config();
 const path = require("path");
 const { auth } = require("express-openid-connect");
 const bodyParser = require("body-parser");
+const { doubleCsrf } = require("csrf-csrf");
+const cookieParser = require("cookie-parser");
 const dbConnection = require("./config/DBConnection").dbConnection;
 
 const app = express();
-
-// Added static folder for static stuff
-app.use("/static", express.static(path.join(__dirname, "static")));
-
-// Set up EJS for views
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 
 // Added auth0 config
 app.use(
@@ -26,7 +21,47 @@ app.use(
   })
 );
 
+app.use(cookieParser());
+
+const {
+  invalidCsrfTokenError,
+  generateToken,
+  validateRequest,
+  doubleCsrfProtection,
+} = doubleCsrf({
+  getSecret: () => {
+    return "bb12baa3960384a3b50f06be53da9f6d5abcdf856bf4605f8dab";
+  },
+  getTokenFromRequest: (req) => {
+    console.log(req.body);
+    return req.body._csrf;
+  },
+  cookieName: "doubleCrsf",
+  cookieOptions: {
+    sameSite: "lax",
+    path: "/",
+    secure: false,
+  },
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(doubleCsrfProtection);
+
+app.get("/csrf-token", (req, res) => {
+  if (req.csrfToken === undefined) {
+    return res.status(500).json({ error: "CSRF Token not found" });
+  }
+  console.log({ csrfToken: req.csrfToken() });
+  res.json({ csrfToken: req.csrfToken() });
+});
+
+// Added static folder for static stuff
+app.use("/static", express.static(path.join(__dirname, "static")));
+
+// Set up EJS for views
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use("/delete/", require("./routes/deleteID"));
 

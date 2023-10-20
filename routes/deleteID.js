@@ -5,7 +5,7 @@ const Reservation = require("../models/Reservation");
 const axios = require("axios");
 const dotenv = require("dotenv").config();
 
-router.get("/:deleteID", async (req, res) => {
+router.post("/:deleteID", async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     const userAuth = {};
     userAuth.auth = true;

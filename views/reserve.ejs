@@ -95,7 +95,9 @@
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column is-half">
-                        <form action="/reserve" method="POST">
+                        <form action="/reserve" method="POST" enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="_csrf" value="<%= userAuth.csrf %>">
+
                             <div class="field">
                                 <label class="label">Date</label>
                                 <div class="control">

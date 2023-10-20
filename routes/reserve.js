@@ -10,6 +10,7 @@ const validator = require("../utils/validator");
 router.get("/", async (req, res) => {
   const userAuth = { auth: false };
   if (req.oidc.isAuthenticated()) {
+    userAuth.csrf = req.csrfToken();
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
     const options = {
@@ -33,6 +34,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body)
   const userAuth = { auth: false };
   let userValidations = [];
   const reservationData = req.body;
