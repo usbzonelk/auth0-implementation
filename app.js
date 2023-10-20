@@ -72,7 +72,7 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/reserve", require("./routes/reserve"));
 
 app.use((req, res) => {
-  res.render("404");
+  res.status(404).render("404");
 });
 
 const dbConnectionError = () => {
