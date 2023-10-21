@@ -34,7 +34,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body)
   const userAuth = { auth: false };
   let userValidations = [];
   const reservationData = req.body;

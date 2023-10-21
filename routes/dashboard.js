@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
   const userAuth = { auth: false, reservations: [] };
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;
+    userAuth.csrf = req.csrfToken();
     userAuth.id = req.oidc.user.sub;
     const options = {
       method: "GET",

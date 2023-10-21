@@ -33,7 +33,6 @@ const {
     return "bb12baa3960384a3b50f06be53da9f6d5abcdf856bf4605f8dab";
   },
   getTokenFromRequest: (req) => {
-    console.log(req.body);
     return req.body._csrf;
   },
   cookieName: "doubleCrsf",
@@ -63,13 +62,13 @@ app.use("/static", express.static(path.join(__dirname, "static")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use("/delete/", require("./routes/deleteID"));
-
 app.use("/", require("./routes/index"));
 
 app.use("/dashboard", require("./routes/dashboard"));
 
 app.use("/reserve", require("./routes/reserve"));
+
+app.use("/delete", require("./routes/deleteID"));
 
 app.use((req, res) => {
   res.status(404).render("404");

@@ -5,12 +5,12 @@ const Reservation = require("../models/Reservation");
 const axios = require("axios");
 const dotenv = require("dotenv").config();
 
-router.post("/:deleteID", async (req, res) => {
+router.post("/", async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     const userAuth = {};
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
-    const deleteID = req.params.deleteID;
+    const deleteID = req.body.deleteID;
     const options = {
       method: "GET",
       url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
