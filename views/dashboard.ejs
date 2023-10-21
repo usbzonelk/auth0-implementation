@@ -172,32 +172,6 @@
             </div>
         </div>
     </div>
-    <script defer>
-        function confirmDelete(bookingId) {
-            const csrf = "<%= userAuth.csrf %>";
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to book this slot again!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-            }).then(async (result) => {
-                const formData = new FormData();
-                formData.append('_csrf', csrf);
-                formData.append('deleteID', bookingId);
-                const response = await fetch('/delete/', {
-                    method: 'POST',
-                    body: formData,
-                });
-                if (!response.ok) {
-                    throw new Error('Delete request failed!');
-                }
-                showSuccessMessage();
-            });
-        }
-    </script>
 
     <% if ("deleteCount" in userAuth && userAuth.deleteCount> 0){ %>
         <script>
