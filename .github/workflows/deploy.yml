@@ -47,7 +47,7 @@ jobs:
         sudo docker load -i /home/ubuntu/remoteBuilds/isec.tar.gz && \
          sudo docker stop isecimgContainer || true && \
          sudo docker rm isecimgContainer || true && \
-         sudo docker run -d --name isecimgContainer -p 6969:8080 isecimg && \
+         sudo docker run -e BASE_URL=https://isec.bhashith.me/ -d --name isecimgContainer -p 6969:8080 isecimg && \
         exit"
         
     - name: cleanup
