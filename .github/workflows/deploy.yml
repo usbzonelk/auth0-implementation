@@ -22,7 +22,10 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t isecimg .
-        sudo ls /var/lib/docker/ -lh
+        
+    - name: Export image
+      run: docker save -o isec.tar.gz isecimg
+
     - name: install ssh keys
 
       run: |
@@ -36,13 +39,13 @@ jobs:
  #    run: ssh ubuntu@35.87.98.80
 
     - name: Copy Docker image to VPS
-      run: sudo scp  -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  isecimg ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
+      run: sudo scp  -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  isec.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
       
     - name: Login to VPS
       run: ssh ubuntu@35.87.98.80
 
     - name: Load Docker image on VPS
-      run: docker load -i /home/ubuntu/remoteBuilds/isecimg
+      run: docker load -i /home/ubuntu/remoteBuilds/isec.tar.gz
 
     - name: Stop existing Docker container on VPS
       run: docker stop isecimgContainer || true
