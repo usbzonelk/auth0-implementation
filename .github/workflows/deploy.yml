@@ -22,7 +22,7 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t isecimg .
-        ls /var/lib/docker/ -lh
+        sudo ls /var/lib/docker/ -lh
     - name: install ssh keys
 
       run: |
