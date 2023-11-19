@@ -41,23 +41,14 @@ jobs:
     - name: Copy Docker image to VPS
       run: sudo scp  -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  isec.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
       
-    - name: Login to VPS
-      run: ssh ubuntu@35.87.98.80
-
-    - name: Load Docker image on VPS
-      run: docker load -i /home/ubuntu/remoteBuilds/isec.tar.gz
-
-    - name: Stop existing Docker container on VPS
-      run: docker stop isecimgContainer || true
-
-    - name: Remove existing Docker container on VPS
-      run: docker rm isecimgContainer || true
-
-    - name: Run Docker container on VPS
-      run: docker run -d --name isecimgContainer -p 6969:8080 isecimg
-
-    - name: Exit SSH
-      run: exit
-
+    - name: Login to VPS and run docker
+      run: |
+       ssh ubuntu@35.87.98.80 "\
+        docker load -i /home/ubuntu/remoteBuilds/isec.tar.gz && \
+        docker stop isecimgContainer || true && \
+        docker rm isecimgContainer || true && \
+        docker run -d --name isecimgContainer -p 6969:8080 isecimg && \
+        exit"
+        
     - name: cleanup
       run: rm -rf ~/.ssh
