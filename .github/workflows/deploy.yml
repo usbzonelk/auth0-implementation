@@ -20,8 +20,9 @@ jobs:
         dockerfile: Dockerfile
 
     - name: Build Docker image
-      run: docker build -t isecimg .
-
+      run: |
+        docker build -t isecimg .
+        ls -lh
     - name: install ssh keys
 
       run: |
