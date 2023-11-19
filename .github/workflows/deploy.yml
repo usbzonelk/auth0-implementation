@@ -23,7 +23,7 @@ jobs:
       run: docker build -t isecimg .
 
     - name: Copy Docker image to VPS
-      run: scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds
+      run: scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
 
     - name: Load Docker image on VPS
       run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker load -i /home/ubuntu/remoteBuilds/isecimg.tar.gz'
