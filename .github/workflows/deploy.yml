@@ -22,10 +22,17 @@ jobs:
     - name: Build Docker image
       run: docker build -t isecimg .
 
-    - name: Deploy Docker image to VPS
-      run: |
-        scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker load -i /home/ubuntu/remoteBuilds/isecimg.tar.gz'
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker stop isecimgContainer || true'
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker rm isecimgContainer || true'
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker run -d --name isecimgContainer -p 6969:8080 isecimg'
+    - name: Copy Docker image to VPS
+      run: scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds
+
+    - name: Load Docker image on VPS
+      run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker load -i /home/ubuntu/remoteBuilds/isecimg.tar.gz'
+
+    - name: Stop existing Docker container on VPS
+      run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker stop isecimgContainer || true'
+
+    - name: Remove existing Docker container on VPS
+      run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker rm isecimgContainer || true'
+
+    - name: Run Docker container on VPS
+      run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker run -d --name isecimgContainer -p 6969:8080 isecimg'
