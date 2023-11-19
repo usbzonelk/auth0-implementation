@@ -1,0 +1,30 @@
+name: Deploy to Ubuntu
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build-and-deploy-locally:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
+      with:
+        dockerfile: Dockerfile
+
+    - name: Build Docker image
+      run: docker build -t isecimg .
+
+    - name: Deploy Docker image to VPS
+      run: |
+        scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker load -i /home/ubuntu/remoteBuilds/isecimg.tar.gz'
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker stop isecimgContainer || true'
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker rm isecimgContainer || true'
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.87.98.80 'docker run -d --name isecimgContainer -p 6969:8080 isecimg'
