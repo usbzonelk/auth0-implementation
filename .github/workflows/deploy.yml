@@ -33,7 +33,7 @@ jobs:
  #    run: ssh ubuntu@35.87.98.80
 
     - name: Copy Docker image to VPS
-      run: scp -i ~/.ssh/id_rsa  isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
+      run: sudo scp -i ~/.ssh/id_rsa  isecimg.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
       
     - name: Login to VPS
       run: ssh ubuntu@35.87.98.80
