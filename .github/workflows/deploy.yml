@@ -32,18 +32,18 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H 35.87.98.80 >> ~/.ssh/known_hosts
+        ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
 
  #   - name: Login to VPS
- #    run: ssh ubuntu@35.87.98.80
+ #    run: ssh ubuntu@${{ secrets.VPS_IP }}
 
     - name: Copy Docker image to VPS
-      run: sudo scp  -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  isec.tar.gz ubuntu@35.87.98.80:/home/ubuntu/remoteBuilds/
+      run: sudo scp  -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  isec.tar.gz ubuntu@${{ secrets.VPS_IP }}:/home/ubuntu/remoteBuilds/
       
     - name: Login to VPS and run docker
       run: |
-       ssh ubuntu@35.87.98.80 "\
+       ssh ubuntu@${{ secrets.VPS_IP }} "\
         sudo docker load -i /home/ubuntu/remoteBuilds/isec.tar.gz && \
          sudo docker stop isecimgContainer || true && \
          sudo docker rm isecimgContainer || true && \
