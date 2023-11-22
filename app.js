@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv").config();
 const path = require("path");
 const { auth } = require("express-openid-connect");
@@ -18,6 +19,19 @@ app.use(
     secret: process.env.SESSION_SECRET,
     authRequired: false,
     auth0Logout: true,
+  })
+);
+
+//Use CORS protection
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || origin !== process.env.BASE_URL) {
+        callback(null, true);
+      } else {
+        callback(new Error("Forbidden!"));
+      }
+    },
   })
 );
 
