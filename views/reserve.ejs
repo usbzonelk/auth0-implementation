@@ -11,6 +11,8 @@
     <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/dashboard/dashboard.css" media="all">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+
 </head>
 
 <body>
@@ -151,7 +153,14 @@
                             </div>
                             <div class="field">
                                 <div class="control">
+                                    <div class="h-captcha" data-sitekey="<%= userAuth.hCapctchaKey %>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
                                     <button class="button is-primary" type="submit">Submit</button>
+
                                 </div>
                             </div>
                         </form>
@@ -178,7 +187,9 @@
                 icon: 'error',
                 title: 'Please fix below errors',
                 text: alertText,
-            });    </script>
+            }).then((result) => {
+                window.location.href = '/reserve';
+            });;    </script>
 
         <% } else if ("validations" in userAuth && userAuth.validations.length < 1){ %>
             <script>
@@ -198,7 +209,6 @@
             </script>
 
             <% } %>
-
 </body>
 
 </html>

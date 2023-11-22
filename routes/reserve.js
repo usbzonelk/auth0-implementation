@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 const Reservation = require("../models/Reservation");
 const sanitizer = require("../utils/sanitize");
 const validator = require("../utils/validator");
+const captchaVerify = require("../utils/hcaptcha");
 
 router.get("/", async (req, res) => {
   const userAuth = { auth: false };
@@ -13,6 +14,8 @@ router.get("/", async (req, res) => {
     userAuth.csrf = req.csrfToken();
     userAuth.auth = true;
     userAuth.id = req.oidc.user.sub;
+    userAuth.hCapctchaKey = process.env.HCAPTCHA_SITE_KEY;
+
     const options = {
       method: "GET",
       url: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userAuth.id}`,
@@ -35,6 +38,10 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const userAuth = { auth: false };
+  userAuth.hCapctchaKey = process.env.HCAPTCHA_SITE_KEY;
+  userAuth.csrf = req.csrfToken();
+  userAuth.id = req.oidc.user.sub;
+
   let userValidations = [];
   const reservationData = req.body;
 
@@ -42,7 +49,7 @@ router.post("/", async (req, res) => {
     reservationData[key] = sanitizer(reservationData[key]);
   }
 
-  userValidations = validator(reservationData);
+  userValidations = await validator(reservationData);
 
   if (req.oidc.isAuthenticated()) {
     userAuth.auth = true;

@@ -1,11 +1,24 @@
-const validator = (reservationData) => {
+const verifyCaptcha = require("./hcaptcha");
+
+const validator = async (reservationData) => {
   const warnings = [];
+
+  if (!reservationData["h-captcha-response"]) {
+    warnings.push("Captcha is invalid");
+  } else {
+    const captachaValidity = await verifyCaptcha(
+      reservationData["h-captcha-response"]
+    );
+    if (!captachaValidity) {
+      warnings.push("Captcha is invalid");
+    }
+  }
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(reservationData["date"])) {
     warnings.push("Date is invalid");
   }
 
- /*  if (/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(reservationData["time"])) {
+  /*  if (/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(reservationData["time"])) {
     warnings.push("Time is invalid");
   } */
 
