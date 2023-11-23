@@ -61,14 +61,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(doubleCsrfProtection);
 
-app.get("/csrf-token", (req, res) => {
-  if (req.csrfToken === undefined) {
-    return res.status(500).json({ error: "CSRF Token not found" });
-  }
-  console.log({ csrfToken: req.csrfToken() });
-  res.json({ csrfToken: req.csrfToken() });
-});
-
 // Added static folder for static stuff
 app.use("/static", express.static(path.join(__dirname, "static")));
 
