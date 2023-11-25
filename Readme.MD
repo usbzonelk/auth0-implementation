@@ -30,6 +30,27 @@ Make sure you have the following installed on your machine:
     npm install
     ```
 
+## Project Configuration
+
+
+Set the following environment variables in your local environment or create a `.env` file in the project root:
+
+    ```plaintext
+        PORT = port
+        DB_URL=MySQL DB URL
+        AUTH0_ISSUER_BASE_URL=Issuer Base URL
+        AUTH0_CLIENT_ID=Auth0 client ID
+        BASE_URL=Application BaseURL with above port
+        SESSION_SECRET=Secret value for auth0 sessions (some random value)
+        AUTH0_MGMT=Auth0 Management API key
+        SERVER_RESTART_TIMEOUT=Server restart timeout on a server failure
+        NODE_ENV=production
+        HCAPTCHA_SITE_KEY=HCaptcha site key
+        HCAPTCHA_SEC_KEY=HCaptcha security key
+    ```
+
+    Replace `your-auth0-domain`, `your-client-id`, and `your-client-secret` with the appropriate values from your Auth0 application.
+
 ## Usage
 
 Start the application using the following command:
