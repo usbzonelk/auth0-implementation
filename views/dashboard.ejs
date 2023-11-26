@@ -58,14 +58,14 @@
                     <div id="w-node-d4c0ae4f-9213-3c19-d19c-08539db2f105-f8b1e56b" class="f-testimonial-card">
                         <div class="f-margin-bottom-40">
                             <div class="sysf-tag-2 sysf-tag-success">
-                                <%= userAuth.userDetails.email %>
+                                <%= userAuth.userDetails.email || "No Email" %>
                             </div>
                             <div class="sysf-tag-2 sysf-tag-success">
-                                <%= userAuth.userDetails.user_metadata.phone %>
+                                <%= userAuth.userDetails.user_metadata.phone || "No phone" %>
                             </div>
                             <div class="sysf-tag-2 sysf-tag-success">
                                 <img
-                                    src="https://flagcdn.com/48x36/<%= userAuth.userDetails.user_metadata.country %>.png" />
+                                    src="https://flagcdn.com/48x36/<%= userAuth.userDetails.user_metadata.country || "lk" %>.png" />
                             </div>
                         </div>
                         <div class="f-testimonial-author">
@@ -79,9 +79,9 @@
                             <div>
 
                                 <p class="f-paragraph-regular f-text-weight-medium">
-                                    <%= userAuth.userDetails.user_metadata.fullname %>
+                                    <%= userAuth.userDetails.user_metadata.fullname || "no name"%>
                                 </p>
-                                <div class="f-paragraph-small">@<%= userAuth.userDetails.username %>
+                                <div class="f-paragraph-small">@<%= userAuth.userDetails.username || "No username" %>
                                 </div>
                             </div>
                         </div>
@@ -114,22 +114,22 @@
                                         <% for (let i=0; i < userAuth.reservations.length; i++) { %>
                                             <tr>
                                                 <td>
-                                                    <%= userAuth.reservations[i].date %>
+                                                    <%= userAuth.reservations[i].date || "2023-12-12" %>
                                                 </td>
                                                 <td>
-                                                    <%= userAuth.reservations[i].time %>
+                                                    <%= userAuth.reservations[i].time || "nullTime" %>
                                                 </td>
                                                 <td>
-                                                    <%= userAuth.reservations[i].location %>
+                                                    <%= userAuth.reservations[i].location || "nullLocation" %>
                                                 </td>
                                                 <td>
-                                                    <%= userAuth.reservations[i].vehicle_no %>
+                                                    <%= userAuth.reservations[i].vehicle_no || "nullVehicle" %>
                                                 </td>
                                                 <td>
-                                                    <%= userAuth.reservations[i].mileage %> km
+                                                    <%= userAuth.reservations[i].mileage || "nullMilage" %> km
                                                 </td>
                                                 <td>
-                                                    <%= userAuth.reservations[i].message %>
+                                                    <%= userAuth.reservations[i].message || "nullMsg" %>
                                                 </td>
                                                 <td>
                                                     <% const currentDate=new Date(); %>
