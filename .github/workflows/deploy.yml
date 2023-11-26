@@ -49,6 +49,15 @@ jobs:
          sudo docker rm isecimgContainer || true && \
          sudo docker run -e BASE_URL=https://isec.bhashith.me/ \
                   -e DB_URL=${{ secrets.DB_URL }} \
+                   -e PORT=${{ secrets.PORT }} \
+                   -e AUTH0_ISSUER_BASE_URL=${{ secrets.AUTH0_ISSUER_BASE_URL }} \
+                    -e AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }} \
+                    -e SESSION_SECRET=${{ secrets.SESSION_SECRET }} \
+                    -e AUTH0_MGMT=${{ secrets.AUTH0_MGMT }} \
+                    -e SERVER_RESTART_TIMEOUT=${{ secrets.SERVER_RESTART_TIMEOUT }} \
+                    -e NODE_ENV=${{ secrets.NODE_ENV }} \
+                    -e HCAPTCHA_SITE_KEY=${{ secrets.HCAPTCHA_SITE_KEY }} \
+                    -e HCAPTCHA_SEC_KEY=${{ secrets.HCAPTCHA_SEC_KEY }} \
                   -d --name isecimgContainer -p 6969:8080 isecimg && \
         exit"
         
