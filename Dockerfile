@@ -4,7 +4,7 @@ WORKDIR /usr/app
 COPY . .
 RUN npm install
 
-FROM node:alpine as main
+FROM node:21.2-alpine3.18 as main
 
 COPY --from=build /usr/app /
 COPY . .
