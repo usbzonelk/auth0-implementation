@@ -56,9 +56,9 @@ jobs:
             -e SESSION_SECRET=${{ secrets.SESSION_SECRET }} \
             -e SERVER_RESTART_TIMEOUT=${{ secrets.SERVER_RESTART_TIMEOUT }} \
             -e NODE_ENV=${{ secrets.NODE_ENV }} \
+            -e AUTH0_MGMT=${{ secrets.AUTH0_MGMT }} \
             -e HCAPTCHA_SITE_KEY=${{ secrets.HCAPTCHA_SITE_KEY }} \
             -e HCAPTCHA_SEC_KEY=${{ secrets.HCAPTCHA_SEC_KEY }}  \
-            -e AUTH0_MGMT=${{ secrets.AUTH0_MGMT }} \
             -d --name isecimgContainer -p 6969:8080 isecimg &&
              exit"
 
