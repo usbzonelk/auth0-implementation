@@ -61,4 +61,4 @@ npm start
 
 The application will be accessible at [http://127.0.4.5:8080](http://127.0.4.5:8080). Visit this URL in your web browser to see the Auth0 integration in action.
 
-If you need Docker, use your preferred docker commands to build the image from the given dockerfile in the repository.
+If you need Docker, use your preferred docker commands to build the image from the given dockerfile in the repository..
